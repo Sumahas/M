@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Language Translation</title>
+</head>
+<body>
+    <h1>Language Translation</h1>
+    <input id="sourceText" type="text" placeholder="Enter text here..." />
+    <button onclick="translateText()">Translate</button>
+    <p id="result"></p>
+
+    <script>
+        function translateText() {
+            var sourceText = document.getElementById('sourceText').value;
+            var url = "https://translation.googleapis.com/language/translate/v2";
+            url += "?q=" + encodeURI(sourceText);
+            url += "&target=hi"; // Change this to the language you want to translate to
+            url += "&key=YOUR_API_KEY"; // Replace with your API key
+
+            fetch(url, { 
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                var translatedText = data.data.translations[0].translatedText;
+                document.getElementById('result').textContent = translatedText;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
